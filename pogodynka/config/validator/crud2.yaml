@@ -1,0 +1,18 @@
+App\Entity\Measurement: 
+
+  properties:
+    humidity:
+     - Range:
+         min: 0
+         max: 100
+     - NotBlank: ~
+    pressure:
+     - Range:
+        min: 900
+        max: 1100
+     - NotBlank: ~
+    celsius:
+     - NotBlank: ~
+    wind:
+     - NotBlank: ~
+     
