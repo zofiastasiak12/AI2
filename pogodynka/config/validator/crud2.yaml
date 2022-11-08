@@ -5,11 +5,13 @@ App\Entity\Measurement:
      - Range:
          min: 0
          max: 100
+         groups: [edit]
      - NotBlank: ~
     pressure:
      - Range:
         min: 900
         max: 1100
+        groups: [edit]
      - NotBlank: ~
     celsius:
      - NotBlank: ~

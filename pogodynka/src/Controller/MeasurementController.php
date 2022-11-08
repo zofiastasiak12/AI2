@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 #[Route('/measurement')]
 class MeasurementController extends AbstractController
@@ -21,6 +23,7 @@ class MeasurementController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_MEASUREMENT_ADD')]
     #[Route('/new', name: 'app_measurement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, MeasurementRepository $measurementRepository): Response
     {
@@ -40,6 +43,7 @@ class MeasurementController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_MEASUREMENT_SHOW')]
     #[Route('/{id}', name: 'app_measurement_show', methods: ['GET'])]
     public function show(Measurement $measurement): Response
     {
@@ -48,10 +52,13 @@ class MeasurementController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_MEASUREMENT_EDIT')]
     #[Route('/{id}/edit', name: 'app_measurement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Measurement $measurement, MeasurementRepository $measurementRepository): Response
     {
-        $form = $this->createForm(MeasurementType::class, $measurement);
+        $form = $this->createForm(MeasurementType::class, $measurement, [
+            'validation_groups' => ['edit']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,6 +73,7 @@ class MeasurementController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_MEASUREMENT_DELETE')]
     #[Route('/{id}', name: 'app_measurement_delete', methods: ['POST'])]
     public function delete(Request $request, Measurement $measurement, MeasurementRepository $measurementRepository): Response
     {
