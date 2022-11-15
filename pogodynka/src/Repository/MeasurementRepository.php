@@ -24,17 +24,7 @@ class MeasurementRepository extends ServiceEntityRepository
         parent::__construct($registry, Measurement::class);
     }
 
-    public function findByLocation(Location $location)
-     {
-     $qb = $this->createQueryBuilder('m');
-     $qb->where('m.location = :location')
-	    ->setParameter('location', $location)
-        ->orderBy('m.celsius', 'DESC')
-        ->setMaxResults(10);
-     $query = $qb->getQuery();
-     $result = $query->getResult();
-     return $result;
-     }
+    
 
     public function save(Measurement $entity, bool $flush = false): void
     {
@@ -47,7 +37,7 @@ class MeasurementRepository extends ServiceEntityRepository
 	
 	
 
-public function remove(Measurement $entity, bool $flush = false): void
+    public function remove(Measurement $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -55,6 +45,16 @@ public function remove(Measurement $entity, bool $flush = false): void
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findByLocation($location)
+     {
+     $qb = $this->createQueryBuilder('m');
+     $qb->where('m.location = :location')
+	    ->setParameter('location', $location);
+     $query = $qb->getQuery();
+     $result = $query->getResult();
+     return $result;
+     }
     
 
 //    /**
